@@ -5,8 +5,8 @@
 用户要一个**能在统信 UOS 上运行的 PDF 编辑软件**，已交付完整项目。
 
 > **项目位置（2026-11-01 起）**：
-> `C:\Users\ua11235\Documents\deepseek-harness\default-workspace\pdfstudio-uos`
-> （原 `C:\Users\ua11235\WorkBuddy AI\2026-10-27-22-20-43\pdfstudio-uos`，已迁移，
+> `C:\Users\<user>\Documents\deepseek-harness\default-workspace\pdfstudio-uos`
+> （原 `C:\Users\<user>\WorkBuddy AI\2026-10-27-22-20-43\pdfstudio-uos`，已迁移，
 > 项目记忆就在本项目内 `.workbuddy-ai/memory/`）
 
 ### ⚠ 工作区里起不了任何 Python 进程（每次会话都要注意）
@@ -14,13 +14,13 @@
 `default-workspace` 下所有 venv 的 `python.exe` 都报
 `did not find executable at <base python>`（退出码 103），PyInstaller 打的
 exe 在里面也起不来（自检报"颜色 0 种"）。同一份文件复制到 `%TEMP%` 或
-`C:\Users\ua11235\Documents\` 下完全正常。已排除磁盘、重解析点、目录名、
+`C:\Users\<user>\Documents\` 下完全正常。已排除磁盘、重解析点、目录名、
 venv 损坏、文件占用、TEMP 变量等原因。
 
 **验证必须在工作区外做**：
-- 解释器：`C:\Users\ua11235\.dsh-venvs\pdfstudio\Scripts\python.exe`
+- 解释器：`C:\Users\<user>\.dsh-venvs\pdfstudio\Scripts\python.exe`
   （PyMuPDF 1.24.14 + PySide6 6.12 + PyInstaller 6.22.3，别放回工作区）
-- 项目副本：`C:\Users\ua11235\.dsh-venvs\proj_verify`（跑测试/打包用）
+- 项目副本：`C:\Users\<user>\.dsh-venvs\proj_verify`（跑测试/打包用）
 - 源码与交付物留在工作区，改完同步过去再跑
 
 > 在工作区里看到"测试通过"是不可信的——程序可能根本没跑起来。
@@ -43,7 +43,7 @@ venv 损坏、文件占用、TEMP 变量等原因。
   `desktop_dir()` 已兼容 `Desktop`/`桌面`。整套测试本来就跑在 Windows 上，
   所以"转 Windows"实际是**打包问题**，不是移植问题。仅 `packaging/*.sh`
   1246 行是 Linux 专属
-- 开发环境：`C:\Users\ua11235\.dsh-venvs\pdfstudio\Scripts\python.exe`
+- 开发环境：`C:\Users\<user>\.dsh-venvs\pdfstudio\Scripts\python.exe`
   （**不要**把 venv 放在工作区里，见上面那条），PyMuPDF 1.24.14 +
   PySide6 6.12 + PyInstaller 6.22.3
 - 依赖安装走清华镜像才快：`-i https://pypi.tuna.tsinghua.edu.cn/simple`
