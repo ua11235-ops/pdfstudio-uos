@@ -93,12 +93,34 @@ if diff:
     sys.exit(1)
 print("    OK 逐字节一致")
 '@
-    $py = (Get-Command python -ErrorAction SilentlyContinue).Source
-    if (-not $py) { $py = "python3" }
-    $check | & $py - $root $uosTar.FullName
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "!! 包比源码旧，拒绝发布。先重新打包：python packaging/make_release.py --with-wheels" -ForegroundColor Red
-        exit 1
+    # 挑一个真能跑的解释器。
+    # 坑：Windows 上 `python` 常常是 App Execution Alias（WindowsApps\python.exe），
+    # 它是个 0 字节占位程序，跑起来直接退出码 9009。拿它当解释器的话，
+    # 校验脚本根本没执行，$LASTEXITCODE 非 0，于是每次都被判成"包比源码旧"
+    # ——这是假警报，而且会把正确的发布拦下来。
+    $pyCandidates = @(
+        (Join-Path $root ".venv\Scripts\python.exe"),
+        "python3",
+        "python"
+    )
+    $py = $null
+    foreach ($cand in $pyCandidates) {
+        if (-not $cand) { continue }
+        $cmd = Get-Command $cand -ErrorAction SilentlyContinue
+        if (-not $cmd) { continue }
+        & $cmd.Source -c "import sys" 2>$null
+        if ($LASTEXITCODE -eq 0) { $py = $cmd.Source; break }
+    }
+    if (-not $py) {
+        Write-Host "!! 找不到可用的 Python 解释器，跳过包内容校验" -ForegroundColor Yellow
+        Write-Host "   （发布仍会继续，但请自行确认包与源码一致）" -ForegroundColor Yellow
+    } else {
+        Write-Host "    使用解释器：$py"
+        $check | & $py - $root $uosTar.FullName
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "!! 包比源码旧，拒绝发布。先重新打包：python packaging/make_release.py --with-wheels" -ForegroundColor Red
+            exit 1
+        }
     }
 }
 

@@ -7,8 +7,8 @@
 
 | 你的系统 | 下载 | 说明 |
 | --- | --- | --- |
-| 统信 UOS / Deepin / 麒麟 | `pdfstudio-1.0.0.tar.gz`（79 MB） | **含离线依赖**，解压即装，全程不需要联网 |
-| Windows | `PDF工作台-1.0.0-Windows.zip`（43 MB） | 解压 → 双击「安装.bat」，不需要管理员权限，也不需要装 Python |
+| 统信 UOS / Deepin / 麒麟 | `PDFStudio-1.0.0-UOS-x86_64.tar.gz`（79 MB） | **含离线依赖**，解压即装，全程不需要联网 |
+| Windows | `PDFStudio-1.0.0-Windows.zip`（43 MB） | 解压 → 双击「安装.bat」，不需要管理员权限，也不需要装 Python |
 
 > 两个包大小差一倍多，原因是 Linux 那份把 PyQt5 + PyMuPDF 的 wheel 一起打进去了——
 > UOS 的 apt 源要系统激活才能用，离线依赖是能装上的唯一保障。
@@ -16,7 +16,7 @@
 ### UOS 上安装
 
 ```bash
-tar -xzf pdfstudio-1.0.0.tar.gz
+tar -xzf PDFStudio-1.0.0-UOS-x86_64.tar.gz
 cd pdfstudio-1.0.0
 sudo ./packaging/install.sh          # 装给所有用户
 # 或者
