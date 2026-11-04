@@ -1,0 +1,4 @@
+PyMuPDF>=1.21.0
+# 图形界面二选一即可（UOS 软件源里是 PyQt5，pip 环境推荐 PySide6）
+# PyQt5>=5.12
+# PySide6-Essentials>=6.2

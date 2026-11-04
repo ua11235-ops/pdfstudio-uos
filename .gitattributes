@@ -1,0 +1,24 @@
+# 这个项目有两个"换行敏感"的文件类型，规则方向相反，
+# 写错会让 Windows 那边双击安装直接失败（cmd 按字节偏移解析，LF 会错位）。
+
+# 默认：文本文件入库统一 LF，检出时按平台
+* text=auto eol=lf
+
+# .bat 必须 CRLF：LF 换行时 cmd 把 `setlocal` 读成 `etlocal`、
+# `echo.` 读成 `ho.`，并连带 `cd /d "%~dp0"` 失效，表现为"找不到 PDFStudio.exe"
+*.bat text eol=crlf
+
+# .ps1 入库保留原样：它必须带 UTF-8 BOM，而 BOM 由打包前的
+# _fix_scripts.py 统一处理，git 不该插手转换
+*.ps1 -text
+
+# 二进制
+*.png binary
+*.ico binary
+*.pdf binary
+*.whl binary
+*.dll binary
+*.pyd binary
+*.exe binary
+*.zip binary
+*.gz binary

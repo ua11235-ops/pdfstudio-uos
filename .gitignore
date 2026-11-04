@@ -1,0 +1,49 @@
+# ---- 打包产物：不进仓库 ----
+# Release 请用 GitHub Releases 发布，别把 80MB 的 tar.gz / 43MB 的 zip 提交进来
+packaging/build/
+packaging/windows/dist*/
+packaging/windows/build*/
+packaging/windows/*.spec.bak
+
+# PyInstaller 中间产物
+build/
+dist/
+
+# ---- 离线依赖 wheel：80MB，按需用 fetch_wheels.sh 现下 ----
+packaging/wheels/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+ENV/
+
+# ---- 测试与调试产物 ----
+samples/_out/
+screenshots/_test/
+*.log
+selftest*.png
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 本地工具产物 ----
+# 开发期间临时验证脚本（_probe_*.py / _patch_*.py 之类）只放在项目根目录，
+# 不属于项目内容。这里必须限定为"仅根目录"：
+# 写成裸的 `_*.py` 会把 tests/_thumb_probe.py、tests/_audit_thumbs.py
+# 以及所有包的 __init__.py 一起吞掉（它们都以 _ 开头）。
+/_*.py
+
+# 注意：.workbuddy-ai/memory 是项目长期记忆，**要**入库，
+# 它记的是踩过的坑和设计取舍，换机器接手时靠它。
