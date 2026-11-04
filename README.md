@@ -411,6 +411,33 @@ pdfstudio-uos/
 
 ---
 
+## 仓库与发布
+
+代码托管在 GitHub 私有仓库。**仓库里只有源码**（约 1 MB）：
+离线 wheel（80 MB）、UOS 的 tar.gz 与 Windows 的 zip 都不入库，
+需要时用对应脚本现打，或用 GitHub Releases 发布。
+
+```bash
+git clone <仓库地址>          # 拿源码
+python3 packaging/make_release.py --with-wheels    # 现打 UOS 发行包
+```
+
+CI（`.github/workflows/tests.yml`）在每次推送时跑**内核测试**和
+**Python 3.7 语法检查**——目标运行环境是 UOS 20 自带的 3.7，
+在新版本 Python 上写出的 f-string、海象运算符必须在合并前就拦住。
+
+界面测试（`ui_smoke.py` / `_audit_thumbs.py`）**不进 CI**：
+它们需要真实 Qt 窗口和中文字体，无头 runner 上截图会变成方框、
+字体缺失会让断言误判，跑出来的红比不跑更容易误导人。
+这几个留在开发机上手动跑。
+
+**换行规则**写在 `.gitattributes` 里，写错了会出真问题：
+`.bat` 必须 CRLF（LF 会让 cmd 按字节偏移解析，`setlocal` 读成 `etlocal`，
+安装脚本报"找不到 PDFStudio.exe"）；`.ps1` 必须带 UTF-8 BOM
+（否则 PowerShell 5.1 按 ANSI 读，中文全乱码，语法都会解析错）。
+
+---
+
 ## 测试
 
 ```bash
