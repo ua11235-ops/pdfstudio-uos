@@ -14,12 +14,17 @@ on:
 jobs:
   core:
     name: 内核测试 (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    # 不能用 ubuntu-latest：它已经滚到 26.04，actions/setup-python 在
+    # 那上面**装不出 3.9 及更老的 Python**（"not found for Ubuntu 26.04"）。
+    # 而本项目的目标运行环境恰恰是 UOS 20 自带的 Python 3.7，
+    # 老版本的兼容性正是最该盯的东西，所以在能拿到旧版 Python 的
+    # 22.04 上跑。等 22.04 退役再考虑换 runner 或换装法。
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        # 3.7 是目标运行环境（UOS 20 自带）的版本，必须保住兼容性；
-        # 高版本用来提前发现新语法/新 API 依赖
+        # 3.9 贴近目标环境（UOS 20 是 3.7，但 3.7 已无官方 runner 支持）；
+        # 3.12 用来提前发现新版本上的语法/API 依赖
         python-version: ["3.9", "3.12"]
 
     steps:
